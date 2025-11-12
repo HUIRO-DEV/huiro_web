@@ -234,7 +234,7 @@
     <div class="wrap" data-reveal>
       <h2><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Contacto</h2>
       <p>Envíanos contexto de tus procesos actuales y coordinamos un diagnóstico express para definir las próximas fases.</p>
-      <form class="contact-form" name="contacto" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="contact-form" name="contacto" method="POST" data-netlify="true" data-netlify-recaptcha="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contacto" />
         <p class="visually-hidden">
           <label>Si eres humano, deja este campo vacío.
@@ -259,9 +259,10 @@
           Cuéntanos brevemente qué necesitas
           <textarea name="mensaje" rows="4" required></textarea>
         </label>
+        <div data-netlify-recaptcha></div>
         <button type="submit" class="btn btn-primary">Enviar</button>
       </form>
-      <p class="contact-alt">Prefieres escribirnos directo? <a href="mailto:hablemos@huiro.dev">hablemos@huiro.dev</a></p>
+      <p class="contact-alt">Prefieres escribirnos directo? <a href="mailto:hola@huiro.dev">hola@huiro.dev</a></p>
     </div>
   </section>
 
@@ -272,6 +273,33 @@
   <div class="scroll-panel" aria-hidden="true">
     <div class="scroll-panel__meter"><span></span></div>
     <button type="button" class="scroll-panel__btn" aria-label="Volver arriba">↑ Arriba</button>
+  </div>
+
+  <div class="modal" id="modal-privacy" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-privacy-title">
+    <div class="modal__dialog" role="document" tabindex="-1">
+      <button type="button" class="modal__close" data-modal-close aria-label="Cerrar ventana">×</button>
+      <h3 id="modal-privacy-title">Política de privacidad</h3>
+      <p>Tu información se utiliza únicamente para responder solicitudes de contacto. No compartimos datos con terceros ni enviamos campañas automatizadas.</p>
+      <ul class="modal__list">
+        <li>Los formularios solicitan nombre, correo, empresa y mensaje para preparar una respuesta.</li>
+        <li>Netlify aloja el formulario y aplica controles anti-spam.</li>
+        <li>Puedes solicitar la eliminación de tu información escribiendo a <a href="mailto:hola@huiro.dev">hola@huiro.dev</a>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-terms" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-terms-title">
+    <div class="modal__dialog" role="document" tabindex="-1">
+      <button type="button" class="modal__close" data-modal-close aria-label="Cerrar ventana">×</button>
+      <h3 id="modal-terms-title">Términos de servicio</h3>
+      <p>La información de este sitio se entrega de buena fe para evaluar nuestros servicios de desarrollo y operación tecnológica.</p>
+      <ul class="modal__list">
+        <li>Las propuestas y diagnósticos se pactan por contrato individual con alcances y SLA definidos.</li>
+        <li>Los ejemplos publicados son demostrativos y pueden variar según la integración final.</li>
+        <li>Nos reservamos el derecho de actualizar contenidos y precios sin previo aviso.</li>
+      </ul>
+      <p>Si tienes preguntas sobre estos términos escríbenos a <a href="mailto:hola@huiro.dev">hola@huiro.dev</a>.</p>
+    </div>
   </div>
 
   <footer class="footer">
@@ -295,24 +323,18 @@
           <div class="footer__col" aria-label="Contacto">
             <h4>Contacto</h4>
             <ul class="footer__links">
-              <li><a href="mailto:hablemos@huiro.dev">hablemos@huiro.dev</a></li>
+              <li><a href="mailto:hola@huiro.dev">hola@huiro.dev</a></li>
               <li><a href="#contacto" data-scroll>Formulario</a></li>
               <li><a href="https://cal.com/huirodev" target="_blank" rel="noopener">Agendar discovery</a></li>
             </ul>
           </div>
-        </div>
-        <div class="footer__col" aria-label="Noticias">
-          <h4>Boletín</h4>
-          <p>Recibe casos, aprendizajes y benchmarks trimestrales.</p>
-          <form name="newsletter" method="POST" data-netlify="true" class="contact-form" netlify-honeypot="trap" aria-label="Suscripción boletín">
-            <input type="hidden" name="form-name" value="newsletter" />
-            <p class="visually-hidden"><label>Campo oculto<input name="trap" /></label></p>
-            <label>
-              Correo electrónico
-              <input type="email" name="email" placeholder="tu@empresa.com" required />
-            </label>
-            <button type="submit" class="btn btn-primary">Suscribirme</button>
-          </form>
+          <div class="footer__col" aria-label="Legal">
+            <h4>Legal</h4>
+            <ul class="footer__links">
+              <li><a href="#" data-modal-target="modal-privacy">Política de privacidad</a></li>
+              <li><a href="#" data-modal-target="modal-terms">Términos de servicio</a></li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="footer__bottom">
@@ -499,6 +521,67 @@
 
       toTopBtn?.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    const modalTriggers = document.querySelectorAll("[data-modal-target]");
+    if (modalTriggers.length) {
+      const bodyEl = document.body;
+      let activeModal = null;
+      let previousFocus = null;
+
+      const closeModal = () => {
+        if (!activeModal) return;
+        activeModal.classList.remove("is-visible");
+        activeModal.setAttribute("aria-hidden", "true");
+        bodyEl.classList.remove("modal-open");
+        const restoredFocus = previousFocus;
+        activeModal = null;
+        previousFocus = null;
+        if (restoredFocus && typeof restoredFocus.focus === "function") {
+          restoredFocus.focus({ preventScroll: true });
+        }
+      };
+
+      const openModal = (modal, trigger) => {
+        if (!modal || modal === activeModal) return;
+        previousFocus = trigger;
+        activeModal = modal;
+        modal.classList.add("is-visible");
+        modal.setAttribute("aria-hidden", "false");
+        bodyEl.classList.add("modal-open");
+        const dialog = modal.querySelector(".modal__dialog");
+        dialog?.focus({ preventScroll: true });
+      };
+
+      modalTriggers.forEach((trigger) => {
+        trigger.addEventListener("click", (event) => {
+          event.preventDefault();
+          const targetId = trigger.getAttribute("data-modal-target");
+          if (!targetId) return;
+          const modal = document.getElementById(targetId);
+          openModal(modal, trigger);
+        });
+      });
+
+      const modalCloseButtons = document.querySelectorAll("[data-modal-close]");
+      modalCloseButtons.forEach((btn) => {
+        btn.addEventListener("click", () => closeModal());
+      });
+
+      const modalElements = document.querySelectorAll(".modal");
+      modalElements.forEach((modal) => {
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            closeModal();
+          }
+        });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeModal();
+        }
       });
     }
   </script>
