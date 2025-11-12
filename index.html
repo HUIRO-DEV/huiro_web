@@ -14,11 +14,13 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Identidad de huiro.dev: desarrollo web y sistemas a medida" />
+  <link rel="canonical" href="https://huiro.dev/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="huiro.dev | Desarrollo web y sistemas a medida" />
   <meta name="twitter:description" content="Transformamos planillas en plataformas seguras con reportes, pagos e integraciones." />
   <meta name="twitter:image" content="https://huiro.dev/huiro-logo.png" />
-  <link rel="icon" href="huiro-logo.png" />
+  <link rel="icon" type="image/png" href="/huiro-logo.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -52,9 +54,9 @@
             <a class="btn btn-ghost" href="#servicios" data-scroll>Ver servicios</a>
           </div>
           <div class="trust">
-            <span>+10 años construyendo productos</span>
-            <span>SLAs personalizados</span>
-            <span>Stack moderno y seguro</span>
+            <span><i class="fa-solid fa-award" aria-hidden="true"></i>+10 años construyendo productos</span>
+            <span><i class="fa-solid fa-handshake" aria-hidden="true"></i>SLAs personalizados</span>
+            <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Stack moderno y seguro</span>
           </div>
         </div>
         <div class="hero__visual" aria-hidden="true" data-reveal="delay-1">
@@ -103,7 +105,7 @@
   <!-- Servicios -->
   <section class="section section--about light">
     <div class="wrap">
-      <h2>Sobre nosotros</h2>
+      <h2><i class="fa-solid fa-users" aria-hidden="true"></i>Sobre nosotros</h2>
       <div class="about">
         <p>En huiro.dev acompañamos a equipos que crecieron apoyándose en planillas, correos aislados y macros difíciles de mantener.</p>
         <p>Mapeamos los procesos críticos junto a tus líderes, priorizamos quick wins y lanzamos por fases para que cada entrega sea adoptada desde el día uno.</p>
@@ -117,36 +119,54 @@
 
   <section id="servicios" class="section light" data-section="servicios">
     <div class="wrap" data-reveal>
-      <h2>Qué hacemos</h2>
+      <h2><i class="fa-solid fa-list-check" aria-hidden="true"></i>Qué hacemos</h2>
       <ul class="service-list">
-        <li><strong>Desarrollo web</strong>: sitios y aplicaciones con arquitectura moderna, escalables y medibles.</li>
-        <li><strong>Paneles administrativos y sistemas de gestión</strong>: back-office seguro con roles, flujos aprobatorios y reportes automáticos.</li>
-        <li><strong>Pagos WebPay/Khipu/Stripe + conciliación</strong>: cobros integrados, recordatorios y seguimiento contable centralizado.</li>
-        <li><strong>Certificados verificables</strong>: emisión PDF con código único y portal de validación en línea disponible 24/7.</li>
-        <li><strong>Visualización de datos y dashboards</strong>: indicadores clave en tiempo real para decisiones informadas.</li>
-        <li><strong>Infraestructura con Docker/VPS + copias de seguridad</strong>: despliegues reproducibles, monitoreo de logs con ElasticSearch o herramientas propias, alertas y respaldos programados.</li>
+        <li>
+          <i class="fa-solid fa-laptop-code" aria-hidden="true"></i>
+          <span><strong>Desarrollo web</strong>: sitios y aplicaciones con arquitectura moderna, escalables y medibles.</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+          <span><strong>Paneles administrativos y sistemas de gestión</strong>: back-office seguro con roles, flujos aprobatorios y reportes automáticos.</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+          <span><strong>Pagos WebPay/Khipu/Stripe + conciliación</strong>: cobros integrados, recordatorios y seguimiento contable centralizado.</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+          <span><strong>Certificados verificables</strong>: emisión PDF con código único y portal de validación en línea disponible 24/7.</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          <span><strong>Visualización de datos y dashboards</strong>: indicadores clave en tiempo real para decisiones informadas.</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-server" aria-hidden="true"></i>
+          <span><strong>Infraestructura con Docker/VPS + copias de seguridad</strong>: despliegues reproducibles, monitoreo de logs con ElasticSearch o herramientas propias, alertas y respaldos programados.</span>
+        </li>
       </ul>
     </div>
   </section>
 
   <section id="proceso" class="section process" data-section="proceso">
     <div class="wrap" data-reveal>
-      <h2>Nuestro proceso en 3 fases</h2>
+      <h2><i class="fa-solid fa-route" aria-hidden="true"></i>Nuestro proceso en 3 fases</h2>
       <p class="process-intro">Reducimos la incertidumbre lanzando entregas cortas, midiendo impacto y asegurando que los equipos adopten cada nueva funcionalidad sin fricción.</p>
       <div class="process-grid">
         <article class="process-step">
           <span class="process-step__icon" aria-hidden="true">1</span>
-          <h3>Descubrimiento guiado</h3>
+          <h3><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Descubrimiento guiado</h3>
           <p>Sistematizamos tus planillas y flujos críticos, levantamos métricas base y definimos quick wins listos para construir.</p>
         </article>
         <article class="process-step">
           <span class="process-step__icon" aria-hidden="true">2</span>
-          <h3>Entrega por fases</h3>
+          <h3><i class="fa-solid fa-diagram-project" aria-hidden="true"></i>Entrega por fases</h3>
           <p>Prototipos navegables, paneles y automatizaciones se liberan en ciclos cortos con capacitación y documentación esencial.</p>
         </article>
         <article class="process-step">
           <span class="process-step__icon" aria-hidden="true">3</span>
-          <h3>Monitoreo continuo</h3>
+          <h3><i class="fa-solid fa-chart-line" aria-hidden="true"></i>Monitoreo continuo</h3>
           <p>Activamos alertas, tableros y seguimiento de logs para mantener la operación estable y decidir próximas iteraciones.</p>
         </article>
       </div>
@@ -156,13 +176,28 @@
   <!-- Caso de estudio -->
   <section id="caso" class="section" data-section="caso">
     <div class="wrap" data-reveal>
-      <h2>Casos destacados</h2>
+      <h2><i class="fa-solid fa-star" aria-hidden="true"></i>Casos destacados</h2>
       <p class="case-intro">Diseñamos sistemas de autogestión que unifican padrón, cobranza y reportes automatizados, asegurando conciliación de pagos y trazabilidad 24/7 para directorios y equipos operativos.</p>
       <div class="case-grid">
         <ul class="stats" aria-label="Resultados principales">
-          <li><strong>4x</strong><span>tiempo de gestión reducido</span></li>
-          <li><strong>100%</strong><span>de cobros conciliados</span></li>
-          <li><strong>24/7</strong><span>acceso a certificados</span></li>
+          <li>
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <div>
+              <strong>4x</strong><span>tiempo de gestión reducido</span>
+            </div>
+          </li>
+          <li>
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+            <div>
+              <strong>100%</strong><span>de cobros conciliados</span>
+            </div>
+          </li>
+          <li>
+            <i class="fa-solid fa-clock" aria-hidden="true"></i>
+            <div>
+              <strong>24/7</strong><span>acceso a certificados</span>
+            </div>
+          </li>
         </ul>
         <blockquote class="quote">
           <p>“El equipo de huiro.dev tomó procesos dispersos y los convirtió en una plataforma simple que nuestros socios realmente usan.”</p>
@@ -175,18 +210,18 @@
 
   <section id="tecnologias" class="section tech" data-section="tecnologias">
     <div class="wrap" data-reveal>
-      <h2>Nuestro stack</h2>
+      <h2><i class="fa-solid fa-gears" aria-hidden="true"></i>Nuestro stack</h2>
       <div class="tech-list">
         <article>
-          <h3>Frontend</h3>
+          <h3><i class="fa-solid fa-code" aria-hidden="true"></i>Frontend</h3>
           <p>Next.js, Astro, Tailwind, diseño component-driven dirigido por datos.</p>
         </article>
         <article>
-          <h3>Backend</h3>
+          <h3><i class="fa-solid fa-database" aria-hidden="true"></i>Backend</h3>
           <p>Node, tRPC, PostgreSQL, Prisma y despliegues con Docker y Fly.io.</p>
         </article>
         <article>
-          <h3>Integraciones</h3>
+          <h3><i class="fa-solid fa-plug" aria-hidden="true"></i>Integraciones</h3>
           <p>Pagos (WebPay, Stripe, Khipu), firmas, proveedores REST/GraphQL y automatizaciones.</p>
         </article>
       </div>
@@ -196,7 +231,7 @@
   <!-- Contacto -->
   <section id="contacto" class="section light" data-section="contacto">
     <div class="wrap" data-reveal>
-      <h2>Contacto</h2>
+      <h2><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Contacto</h2>
       <p>Envíanos contexto de tus procesos actuales y coordinamos un diagnóstico express para definir las próximas fases.</p>
       <form class="contact-form" name="contacto" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contacto" />
