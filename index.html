@@ -310,7 +310,7 @@
       <p>Envíanos contexto de tus procesos actuales y coordinamos un diagnóstico express para definir las próximas
         fases.</p>
       <form class="contact-form" name="contacto" method="POST" action="/gracias.html" data-netlify="true"
-        data-netlify-recaptcha="true" netlify-honeypot="bot-field">
+        data-netlify-recaptcha="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="contacto" />
         <p class="visually-hidden">
           <label>Si eres humano, deja este campo vacío.
@@ -318,25 +318,42 @@
           </label>
         </p>
         <div class="form-grid">
-          <label>
-            Nombre
-            <input type="text" name="nombre" required />
-          </label>
-          <label>
-            Correo electrónico
-            <input type="email" name="email" required />
-          </label>
+          <div class="form-field">
+            <label for="contacto-nombre">Nombre</label>
+            <input id="contacto-nombre" type="text" name="nombre" required autocomplete="name" minlength="3"
+              data-validate="name" aria-describedby="contacto-nombre-hint contacto-nombre-error" />
+            <p class="form-field__hint" id="contacto-nombre-hint">Indica tu nombre y apellido para personalizar la
+              respuesta.</p>
+            <p class="form-field__error" id="contacto-nombre-error" aria-live="polite"></p>
+          </div>
+          <div class="form-field">
+            <label for="contacto-email">Correo electrónico</label>
+            <input id="contacto-email" type="email" name="email" required autocomplete="email" inputmode="email"
+              data-validate="email" aria-describedby="contacto-email-hint contacto-email-error" />
+            <p class="form-field__hint" id="contacto-email-hint">Usaremos este correo para coordinar el diagnóstico.
+            </p>
+            <p class="form-field__error" id="contacto-email-error" aria-live="polite"></p>
+          </div>
         </div>
-        <label>
-          Empresa u organización
-          <input type="text" name="empresa" />
-        </label>
-        <label>
-          Cuéntanos brevemente qué necesitas
-          <textarea name="mensaje" rows="4" required></textarea>
-        </label>
+        <div class="form-field">
+          <label for="contacto-empresa">Empresa u organización</label>
+          <input id="contacto-empresa" type="text" name="empresa" autocomplete="organization" maxlength="80"
+            data-validate="company" aria-describedby="contacto-empresa-hint contacto-empresa-error" />
+          <p class="form-field__hint" id="contacto-empresa-hint">Opcional. Máximo 80 caracteres, sin enlaces.</p>
+          <p class="form-field__error" id="contacto-empresa-error" aria-live="polite"></p>
+        </div>
+        <div class="form-field">
+          <label for="contacto-mensaje">Cuéntanos brevemente qué necesitas</label>
+          <textarea id="contacto-mensaje" name="mensaje" rows="4" required minlength="20"
+            data-validate="message" aria-describedby="contacto-mensaje-hint contacto-mensaje-error"
+            autocomplete="off"></textarea>
+          <p class="form-field__hint" id="contacto-mensaje-hint">Describe el proceso actual, herramientas usadas y
+            qué resultados esperas.</p>
+          <p class="form-field__error" id="contacto-mensaje-error" aria-live="polite"></p>
+        </div>
         <div data-netlify-recaptcha></div>
         <button type="submit" class="btn btn-primary">Enviar</button>
+        <p class="form-status" data-form-status aria-live="polite"></p>
       </form>
       <p class="contact-alt">Prefieres escribirnos directo? <a href="mailto:hola@huiro.dev">hola@huiro.dev</a></p>
     </div>
@@ -439,6 +456,127 @@
     const topBar = document.querySelector(".top-bar");
     const scrollLinks = document.querySelectorAll("[data-scroll]");
     const navLinks = new Map();
+
+    const contactForm = document.querySelector(".contact-form");
+    if (contactForm) {
+      const statusRegion = contactForm.querySelector("[data-form-status]");
+      const fields = Array.from(contactForm.querySelectorAll("[data-validate]"));
+      const validators = {
+        name(value) {
+          const normalized = value.trim().replace(/\s+/g, " ");
+          if (!normalized) return "Ingresa tu nombre completo.";
+          if (normalized.length < 3) return "El nombre debe tener al menos 3 caracteres.";
+          if (!/^[\p{L}'’.\-]+(?:\s+[\p{L}'’.\-]+)+$/u.test(normalized)) {
+            return "Incluye nombre y apellido usando solo letras.";
+          }
+          return "";
+        },
+        email(value) {
+          const trimmed = value.trim();
+          if (!trimmed) return "Necesitamos un correo electrónico para responderte.";
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmed)) {
+            return "Ingresa un correo válido con dominio.";
+          }
+          return "";
+        },
+        company(value) {
+          const trimmed = value.trim();
+          if (!trimmed) return "";
+          if (trimmed.length > 80) return "Máximo 80 caracteres para este campo.";
+          if (/(https?:\/\/|www\.)/i.test(trimmed)) return "Evita incluir enlaces en este campo.";
+          return "";
+        },
+        message(value) {
+          const trimmed = value.trim();
+          if (trimmed.length < 20) return "Detalla tu necesidad con al menos 20 caracteres.";
+          if (/(https?:\/\/|www\.)/i.test(trimmed)) return "Describe tu necesidad sin enlaces directos.";
+          return "";
+        },
+      };
+
+      const setFieldState = (field, message) => {
+        const errorEl = field.id ? contactForm.querySelector(`#${field.id}-error`) : null;
+        if (errorEl) {
+          errorEl.textContent = message || "";
+        }
+        if (message) {
+          field.setAttribute("aria-invalid", "true");
+          field.dataset.invalid = "true";
+          delete field.dataset.valid;
+        } else {
+          field.removeAttribute("aria-invalid");
+          delete field.dataset.invalid;
+          if (field.value.trim()) {
+            field.dataset.valid = "true";
+          } else {
+            delete field.dataset.valid;
+          }
+          if (statusRegion && !contactForm.querySelector("[data-invalid='true']")) {
+            statusRegion.textContent = "";
+          }
+        }
+      };
+
+      const validateField = (field) => {
+        const key = field.dataset.validate;
+        if (!key || !validators[key]) {
+          return true;
+        }
+        const error = validators[key](field.value || "");
+        if (field.dataset.touched === "true") {
+          setFieldState(field, error);
+        }
+        return !error;
+      };
+
+      const touchField = (field) => {
+        field.dataset.touched = "true";
+      };
+
+      fields.forEach((field) => {
+        field.addEventListener("blur", () => {
+          touchField(field);
+          validateField(field);
+        });
+        field.addEventListener("input", () => {
+          if (field.dataset.touched === "true") {
+            validateField(field);
+          }
+        });
+      });
+
+      contactForm.addEventListener("submit", (event) => {
+        let hasErrors = false;
+        fields.forEach((field) => {
+          touchField(field);
+          if (!validateField(field)) {
+            hasErrors = true;
+          }
+        });
+        if (hasErrors) {
+          event.preventDefault();
+          const firstInvalid = fields.find((input) => input.dataset.invalid === "true");
+          if (statusRegion) {
+            statusRegion.textContent = "Revisa los campos marcados para continuar con el envío.";
+          }
+          firstInvalid?.focus({ preventScroll: false });
+        } else {
+          fields.forEach((field) => {
+            if (typeof field.value !== "string") return;
+            if (field.dataset.validate === "name") {
+              field.value = field.value.trim().replace(/\s+/g, " ");
+            } else if (field.dataset.validate === "message") {
+              field.value = field.value.trim();
+            } else {
+              field.value = field.value.trim();
+            }
+          });
+          if (statusRegion) {
+            statusRegion.textContent = "";
+          }
+        }
+      });
+    }
 
     const updateActiveLink = (sectionId) => {
       navLinks.forEach((link, id) => {
