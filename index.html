@@ -81,15 +81,15 @@
 
 <body>
   <div class="cookie-banner" role="status" aria-live="polite">
-    <p>En huiro.dev no utilizamos cookies ni rastreadores. Guardamos solo la información que nos envías por correo.</p>
-    <button type="button" class="btn btn-primary cookie-banner__button">Entendido</button>
+    <p>Analizamos el uso del sitio con Plausible, una analítica sin cookies ni perfiles personales. Solo medimos visitas anónimas.</p>
+    <button type="button" class="btn btn-primary cookie-banner__button">Lo tengo claro</button>
   </div>
 
   <!-- Hero -->
   <header class="hero">
     <div class="top-bar">
       <div class="wrap top-bar__inner">
-        <img class="logo logo--compact" src="huiro-logo.png" alt="Logo huiro.dev" width="150" height="130"
+        <img class="logo logo--compact" src="huiro-logo.png" alt="Logo huiro.dev" width="150"
           fetchpriority="high" decoding="async" />
         <nav class="top-nav" aria-label="Principal">
           <a href="#servicios" data-scroll>Servicios</a>
@@ -374,13 +374,14 @@
     <div class="modal__dialog" role="document" tabindex="-1">
       <button type="button" class="modal__close" data-modal-close aria-label="Cerrar ventana">×</button>
       <h3 id="modal-privacy-title">Política de privacidad</h3>
-      <p>Tu información se utiliza únicamente para responder solicitudes de contacto. No compartimos datos con terceros
-        ni enviamos campañas automatizadas.</p>
+      <p>Usamos Plausible Analytics para entender el rendimiento del sitio sin recopilar datos personales identificables
+        ni colocar cookies. La información que guardamos es anónima y agregada.</p>
       <ul class="modal__list">
-        <li>Los formularios solicitan nombre, correo, empresa y mensaje para preparar una respuesta.</li>
-        <li>Netlify aloja el formulario y aplica controles anti-spam.</li>
-        <li>Puedes solicitar la eliminación de tu información escribiendo a <a
-            href="mailto:hola@huiro.dev">hola@huiro.dev</a>.</li>
+        <li>Plausible procesa metricas básicas (páginas vistas, país, dispositivo, origen) sin identificar visitantes ni
+          construir perfiles.</li>
+        <li>Los datos de contacto que envías mediante el formulario se almacenan en Netlify Forms y se usan solo para
+          responder a tu solicitud.</li>
+        <li>Puedes solicitar la eliminación de tus datos escribiendo a <a href="mailto:hola@huiro.dev">hola@huiro.dev</a>.</li>
       </ul>
     </div>
   </div>
@@ -393,6 +394,8 @@
       <p>La información de este sitio se entrega de buena fe para evaluar nuestros servicios de desarrollo y operación
         tecnológica.</p>
       <ul class="modal__list">
+        <li>La analítica se realiza con Plausible para obtener métricas agregadas sin cookies ni seguimiento individual.
+        </li>
         <li>Las propuestas y diagnósticos se pactan por contrato individual con alcances y SLA definidos.</li>
         <li>Los ejemplos publicados son demostrativos y pueden variar según la integración final.</li>
         <li>Nos reservamos el derecho de actualizar contenidos y precios sin previo aviso.</li>
@@ -406,7 +409,7 @@
       <div class="footer__grid">
         <div class="footer__brand">
           <span class="footer__pill">huiro.dev</span>
-          <img class="footer__logo" src="huiro-logo.png" alt="huiro.dev" width="150" height="130" loading="lazy"
+          <img class="footer__logo" src="huiro-logo.png" alt="huiro.dev" width="150" loading="lazy"
             decoding="async" />
           <p>Transformamos planillas y procesos manuales en plataformas seguras con reportes, pagos e integraciones
             confiables.</p>
