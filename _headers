@@ -15,7 +15,7 @@
 
   # CSP conservadora para sitio estático con pequeño script inline (año del footer) y estilos inline.
   # Si luego agregas recursos externos (maps, fuentes externas, analytics), avísame para ajustar las directivas.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://plausible.io; frame-ancestors 'none'
 
 # Cache fuerte para assets estáticos fingerprinted
 /*.css
