@@ -1,2 +1,11 @@
-http://*    https://huiro.dev/:splat    301!
-www.huiro.dev/*    https://huiro.dev/:splat    301!
+# Fuerza HTTPS siempre
+http://*      https://huiro.dev/:splat    301!
+
+# Canónico: redirige todo el www → raíz
+https://www.huiro.dev/*   https://huiro.dev/:splat   301!
+
+# (Opcional) Normaliza barra final (descomenta si la quieres)
+# https://huiro.dev/*/  https://huiro.dev/:splat   301!
+
+# 404 personalizado si tienes 404.html (Netlify lo sirve automático si existe)
+# /*   /404.html   404
