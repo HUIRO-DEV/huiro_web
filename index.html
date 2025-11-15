@@ -73,17 +73,18 @@
   }
   </script>
   <!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://plausible.io/js/pa-_TZ1Yu2vFCKqct3V0CEKV.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-
+  <script async src="https://plausible.io/js/pa-_TZ1Yu2vFCKqct3V0CEKV.js"></script>
+  <script>
+    window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+    plausible.init()
+  </script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LcoUw0sAAAAAKh0J7BR0wCRUwywWkacrr7nu4Wz" async defer></script>
 </head>
 
 <body>
   <div class="cookie-banner" role="status" aria-live="polite">
-    <p>Analizamos el uso del sitio con Plausible, una analítica sin cookies ni perfiles personales. Solo medimos visitas anónimas.</p>
+    <p>Analizamos el uso del sitio con Plausible, una analítica sin cookies ni perfiles personales. Solo medimos visitas
+      anónimas.</p>
     <button type="button" class="btn btn-primary cookie-banner__button">Lo tengo claro</button>
   </div>
 
@@ -92,8 +93,8 @@
     <div class="top-bar">
       <div class="wrap top-bar__inner">
         <a href="#inicio" data-scroll class="top-bar__logo">
-          <img class="logo logo--compact" src="huiro-logo.png" alt="Logo huiro.dev" width="150"
-            fetchpriority="high" decoding="async" />
+          <img class="logo logo--compact" src="huiro-logo.png" alt="Logo huiro.dev" width="150" fetchpriority="high"
+            decoding="async" />
         </a>
         <button class="top-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
           <span class="top-nav__toggle-lines" aria-hidden="true">
@@ -106,7 +107,8 @@
         <nav id="site-nav" class="top-nav" aria-label="Principal">
           <div class="top-nav__mobile-head">
             <a href="#inicio" data-scroll class="top-nav__brand">
-              <img src="huiro-logo.png" alt="huiro.dev" class="top-nav__brand-logo" width="132" height="46" decoding="async" />
+              <img src="huiro-logo.png" alt="huiro.dev" class="top-nav__brand-logo" width="132" height="46"
+                decoding="async" />
               <span>huiro.dev</span>
             </a>
             <span class="top-nav__brand-tag">Diseño y sistemas</span>
@@ -346,6 +348,7 @@
       <form class="contact-form" name="contacto" method="POST" action="/gracias.html" data-netlify="true"
         data-netlify-recaptcha="true" data-netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="contacto" />
+        <input type="hidden" name="g-recaptcha-response" data-recaptcha-response />
         <p class="visually-hidden">
           <label>Si eres humano, deja este campo vacío.
             <input name="bot-field" />
@@ -378,9 +381,8 @@
         </div>
         <div class="form-field">
           <label for="contacto-mensaje">Cuéntanos brevemente qué necesitas</label>
-          <textarea id="contacto-mensaje" name="mensaje" rows="4" required minlength="20"
-            data-validate="message" aria-describedby="contacto-mensaje-hint contacto-mensaje-error"
-            autocomplete="off"></textarea>
+          <textarea id="contacto-mensaje" name="mensaje" rows="4" required minlength="20" data-validate="message"
+            aria-describedby="contacto-mensaje-hint contacto-mensaje-error" autocomplete="off"></textarea>
           <p class="form-field__hint" id="contacto-mensaje-hint">Describe el proceso actual, herramientas usadas y
             qué resultados esperas.</p>
           <p class="form-field__counter" id="contacto-mensaje-counter" aria-live="polite" data-counter="message">
@@ -417,7 +419,8 @@
           construir perfiles.</li>
         <li>Los datos de contacto que envías mediante el formulario se almacenan en Netlify Forms y se usan solo para
           responder a tu solicitud.</li>
-        <li>Puedes solicitar la eliminación de tus datos escribiendo a <a href="mailto:hola@huiro.dev">hola@huiro.dev</a>.</li>
+        <li>Puedes solicitar la eliminación de tus datos escribiendo a <a
+            href="mailto:hola@huiro.dev">hola@huiro.dev</a>.</li>
       </ul>
     </div>
   </div>
@@ -445,8 +448,7 @@
       <div class="footer__grid">
         <div class="footer__brand">
           <span class="footer__pill">huiro.dev</span>
-          <img class="footer__logo" src="huiro-logo.png" alt="huiro.dev" width="150" loading="lazy"
-            decoding="async" />
+          <img class="footer__logo" src="huiro-logo.png" alt="huiro.dev" width="150" loading="lazy" decoding="async" />
           <p>Transformamos planillas y procesos manuales en plataformas seguras con reportes, pagos e integraciones
             confiables.</p>
         </div>
@@ -585,6 +587,10 @@
       const messageField = contactForm.querySelector("[data-validate='message']");
       const messageCounter = contactForm.querySelector("[data-counter='message']");
       const messageMinLength = messageField ? Number(messageField.getAttribute("minlength") || "0") : 0;
+      const recaptchaSiteKey = "6LcoUw0sAAAAAKh0J7BR0wCRUwywWkacrr7nu4Wz";
+      const recaptchaResponseField = contactForm.querySelector("[data-recaptcha-response]");
+      const recaptchaAction = "contact_form";
+      let isRecaptchaSubmitting = false;
 
       const formatCounterText = (current, min) => {
         if (!min) return `${current} caracteres`;
@@ -742,6 +748,40 @@
           if (statusRegion) {
             statusRegion.textContent = "";
           }
+          if (!recaptchaSiteKey || !recaptchaResponseField) {
+            return;
+          }
+          if (typeof grecaptcha === "undefined" || typeof grecaptcha.execute !== "function") {
+            event.preventDefault();
+            if (statusRegion) {
+              statusRegion.textContent = "El servicio de reCAPTCHA no está disponible. Actualiza la página e inténtalo nuevamente.";
+            }
+            return;
+          }
+          if (isRecaptchaSubmitting) {
+            event.preventDefault();
+            return;
+          }
+          event.preventDefault();
+          if (statusRegion) {
+            statusRegion.textContent = "Verificando reCAPTCHA...";
+          }
+          isRecaptchaSubmitting = true;
+          grecaptcha.ready(() => {
+            grecaptcha.execute(recaptchaSiteKey, { action: recaptchaAction }).then((token) => {
+              recaptchaResponseField.value = token;
+              if (statusRegion) {
+                statusRegion.textContent = "";
+              }
+              isRecaptchaSubmitting = false;
+              contactForm.submit();
+            }).catch(() => {
+              isRecaptchaSubmitting = false;
+              if (statusRegion) {
+                statusRegion.textContent = "No pudimos verificar el reCAPTCHA. Intenta nuevamente.";
+              }
+            });
+          });
         }
       });
     }
@@ -975,7 +1015,6 @@
       });
     }
   </script>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 
 </html>
