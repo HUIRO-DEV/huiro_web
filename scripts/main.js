@@ -1,3 +1,19 @@
+window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) };
+window.plausible.init = window.plausible.init || function (i) { plausible.o = i || {} };
+if (typeof plausible !== 'undefined' && typeof plausible.init === 'function') {
+  plausible.init();
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
+      console.log('SW registered:', registration);
+    }).catch((error) => {
+      console.log('SW registration failed:', error);
+    });
+  });
+}
+
 const yearEl = document.getElementById("year");
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -126,10 +142,18 @@ if (contactForm) {
   const recaptchaResponseField = contactForm.querySelector("[data-recaptcha-response]");
   const recaptchaAction = "contact_form";
   let isRecaptchaSubmitting = false;
+  let prefetchAdded = false;
 
   contactForm.addEventListener("focus", () => {
     if (!recaptchaLoaded) {
       loadRecaptcha().catch(() => {});
+    }
+    if (!prefetchAdded) {
+      const prefetchLink = document.createElement("link");
+      prefetchLink.rel = "prefetch";
+      prefetchLink.href = "/gracias.html";
+      document.head.appendChild(prefetchLink);
+      prefetchAdded = true;
     }
   }, { once: true, capture: true });
 
